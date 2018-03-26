@@ -1,0 +1,2 @@
+C:\Users\lucas.schoch\Desktop\Entity Framework\Demonstrações\Concorrencia\Concorrencia\Concorrencia\bin\Debug\Concorrencia.exe.config
+C:\Users\Atitude\Desktop\Entity Framework\Demonstrações\Concorrencia\Concorrencia\Concorrencia\bin\Debug\Concorrencia.exe.config

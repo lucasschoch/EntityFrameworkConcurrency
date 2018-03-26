@@ -1,0 +1,540 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ClarifyDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Alunos">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdPessoa" Type="int" Nullable="false" />
+          <Property Name="Cargo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Empresa" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Alunos_CursosAgendados">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdCursosAgendados" Type="int" Nullable="false" />
+          <Property Name="IdAluno" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Certificacoes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdProfessor" Type="int" Nullable="false" />
+          <Property Name="Descricao" Type="varchar(max)" Nullable="false" />
+          <Property Name="EmpresaEmissora" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CursosAgendados">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdCurso" Type="int" Nullable="false" />
+          <Property Name="IdProfessor" Type="int" Nullable="false" />
+          <Property Name="Periodo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DtInicial" Type="date" Nullable="false" />
+          <Property Name="DtFinal" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CursosClarify">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NomeCurso" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="ValorCurso" Type="money" Nullable="false" />
+          <Property Name="CargaHoraria" Type="int" Nullable="false" />
+          <Property Name="Coordenador" Type="int" Nullable="false" />
+          <Property Name="Area" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Pessoas">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PrimeiroNome" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="UltimoNome" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Endereco" Type="varchar" MaxLength="255" />
+          <Property Name="DtNascimento" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Professores">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdPessoa" Type="int" Nullable="false" />
+          <Property Name="TempoMercado" Type="decimal" Precision="5" Scale="0" />
+          <Property Name="TempoSalaDeAula" Type="decimal" Precision="5" Scale="0" />
+        </EntityType>
+        <Association Name="FK_Alunos_CursosAgendados_Alunos">
+          <End Role="Alunos" Type="Self.Alunos" Multiplicity="1" />
+          <End Role="Alunos_CursosAgendados" Type="Self.Alunos_CursosAgendados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Alunos">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Alunos_CursosAgendados">
+              <PropertyRef Name="IdAluno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Alunos_CursosAgendados_CursosAgendados">
+          <End Role="CursosAgendados" Type="Self.CursosAgendados" Multiplicity="1" />
+          <End Role="Alunos_CursosAgendados" Type="Self.Alunos_CursosAgendados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CursosAgendados">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Alunos_CursosAgendados">
+              <PropertyRef Name="IdCursosAgendados" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Alunos_Pessoas">
+          <End Role="Pessoas" Type="Self.Pessoas" Multiplicity="1" />
+          <End Role="Alunos" Type="Self.Alunos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pessoas">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Alunos">
+              <PropertyRef Name="IdPessoa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Certificacoes_Professores">
+          <End Role="Professores" Type="Self.Professores" Multiplicity="1" />
+          <End Role="Certificacoes" Type="Self.Certificacoes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Professores">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Certificacoes">
+              <PropertyRef Name="IdProfessor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CursosAgendados_CursosClarify">
+          <End Role="CursosClarify" Type="Self.CursosClarify" Multiplicity="1" />
+          <End Role="CursosAgendados" Type="Self.CursosAgendados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CursosClarify">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CursosAgendados">
+              <PropertyRef Name="IdCurso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CursosAgendados_Professores">
+          <End Role="Professores" Type="Self.Professores" Multiplicity="1" />
+          <End Role="CursosAgendados" Type="Self.CursosAgendados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Professores">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CursosAgendados">
+              <PropertyRef Name="IdProfessor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CursosClarify_Professores">
+          <End Role="Professores" Type="Self.Professores" Multiplicity="1" />
+          <End Role="CursosClarify" Type="Self.CursosClarify" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Professores">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CursosClarify">
+              <PropertyRef Name="Coordenador" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Professores_Pessoas">
+          <End Role="Pessoas" Type="Self.Pessoas" Multiplicity="1" />
+          <End Role="Professores" Type="Self.Professores" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pessoas">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Professores">
+              <PropertyRef Name="IdPessoa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ClarifyDBModelStoreContainer">
+          <EntitySet Name="Alunos" EntityType="Self.Alunos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Alunos_CursosAgendados" EntityType="Self.Alunos_CursosAgendados" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Certificacoes" EntityType="Self.Certificacoes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CursosAgendados" EntityType="Self.CursosAgendados" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CursosClarify" EntityType="Self.CursosClarify" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pessoas" EntityType="Self.Pessoas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Professores" EntityType="Self.Professores" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Alunos_CursosAgendados_Alunos" Association="Self.FK_Alunos_CursosAgendados_Alunos">
+            <End Role="Alunos" EntitySet="Alunos" />
+            <End Role="Alunos_CursosAgendados" EntitySet="Alunos_CursosAgendados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Alunos_CursosAgendados_CursosAgendados" Association="Self.FK_Alunos_CursosAgendados_CursosAgendados">
+            <End Role="CursosAgendados" EntitySet="CursosAgendados" />
+            <End Role="Alunos_CursosAgendados" EntitySet="Alunos_CursosAgendados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Alunos_Pessoas" Association="Self.FK_Alunos_Pessoas">
+            <End Role="Pessoas" EntitySet="Pessoas" />
+            <End Role="Alunos" EntitySet="Alunos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Certificacoes_Professores" Association="Self.FK_Certificacoes_Professores">
+            <End Role="Professores" EntitySet="Professores" />
+            <End Role="Certificacoes" EntitySet="Certificacoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CursosAgendados_CursosClarify" Association="Self.FK_CursosAgendados_CursosClarify">
+            <End Role="CursosClarify" EntitySet="CursosClarify" />
+            <End Role="CursosAgendados" EntitySet="CursosAgendados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CursosAgendados_Professores" Association="Self.FK_CursosAgendados_Professores">
+            <End Role="Professores" EntitySet="Professores" />
+            <End Role="CursosAgendados" EntitySet="CursosAgendados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CursosClarify_Professores" Association="Self.FK_CursosClarify_Professores">
+            <End Role="Professores" EntitySet="Professores" />
+            <End Role="CursosClarify" EntitySet="CursosClarify" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Professores_Pessoas" Association="Self.FK_Professores_Pessoas">
+            <End Role="Pessoas" EntitySet="Pessoas" />
+            <End Role="Professores" EntitySet="Professores" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ClarifyDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Alunos">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdPessoa" Type="Int32" Nullable="false" />
+          <Property Name="Cargo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Empresa" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Alunos_CursosAgendados" Relationship="Self.FK_Alunos_CursosAgendados_Alunos" FromRole="Alunos" ToRole="Alunos_CursosAgendados" />
+          <NavigationProperty Name="Pessoas" Relationship="Self.FK_Alunos_Pessoas" FromRole="Alunos" ToRole="Pessoas" />
+        </EntityType>
+        <EntityType Name="Alunos_CursosAgendados">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCursosAgendados" Type="Int32" Nullable="false" />
+          <Property Name="IdAluno" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Alunos" Relationship="Self.FK_Alunos_CursosAgendados_Alunos" FromRole="Alunos_CursosAgendados" ToRole="Alunos" />
+          <NavigationProperty Name="CursosAgendados" Relationship="Self.FK_Alunos_CursosAgendados_CursosAgendados" FromRole="Alunos_CursosAgendados" ToRole="CursosAgendados" />
+        </EntityType>
+        <EntityType Name="Certificacoes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdProfessor" Type="Int32" Nullable="false" />
+          <Property Name="Descricao" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EmpresaEmissora" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Professores" Relationship="Self.FK_Certificacoes_Professores" FromRole="Certificacoes" ToRole="Professores" />
+        </EntityType>
+        <EntityType Name="CursosAgendados">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCurso" Type="Int32" Nullable="false" />
+          <Property Name="IdProfessor" Type="Int32" Nullable="false" />
+          <Property Name="Periodo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DtInicial" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DtFinal" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Alunos_CursosAgendados" Relationship="Self.FK_Alunos_CursosAgendados_CursosAgendados" FromRole="CursosAgendados" ToRole="Alunos_CursosAgendados" />
+          <NavigationProperty Name="CursosClarify" Relationship="Self.FK_CursosAgendados_CursosClarify" FromRole="CursosAgendados" ToRole="CursosClarify" />
+          <NavigationProperty Name="Professores" Relationship="Self.FK_CursosAgendados_Professores" FromRole="CursosAgendados" ToRole="Professores" />
+        </EntityType>
+        <EntityType Name="CursosClarify">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NomeCurso" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ValorCurso" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="CargaHoraria" Type="Int32" Nullable="false" />
+          <Property Name="Coordenador" Type="Int32" Nullable="false" />
+          <Property Name="Area" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CursosAgendados" Relationship="Self.FK_CursosAgendados_CursosClarify" FromRole="CursosClarify" ToRole="CursosAgendados" />
+          <NavigationProperty Name="Professores" Relationship="Self.FK_CursosClarify_Professores" FromRole="CursosClarify" ToRole="Professores" />
+        </EntityType>
+        <EntityType Name="Pessoas">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PrimeiroNome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UltimoNome" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Endereco" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DtNascimento" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Alunos" Relationship="Self.FK_Alunos_Pessoas" FromRole="Pessoas" ToRole="Alunos" />
+          <NavigationProperty Name="Professores" Relationship="Self.FK_Professores_Pessoas" FromRole="Pessoas" ToRole="Professores" />
+        </EntityType>
+        <EntityType Name="Professores">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdPessoa" Type="Int32" Nullable="false" />
+          <Property Name="TempoMercado" Type="Decimal" Precision="5" Scale="0" />
+          <Property Name="TempoSalaDeAula" Type="Decimal" Precision="5" Scale="0" />
+          <NavigationProperty Name="Certificacoes" Relationship="Self.FK_Certificacoes_Professores" FromRole="Professores" ToRole="Certificacoes" />
+          <NavigationProperty Name="CursosAgendados" Relationship="Self.FK_CursosAgendados_Professores" FromRole="Professores" ToRole="CursosAgendados" />
+          <NavigationProperty Name="CursosClarify" Relationship="Self.FK_CursosClarify_Professores" FromRole="Professores" ToRole="CursosClarify" />
+          <NavigationProperty Name="Pessoas" Relationship="Self.FK_Professores_Pessoas" FromRole="Professores" ToRole="Pessoas" />
+        </EntityType>
+        <Association Name="FK_Alunos_CursosAgendados_Alunos">
+          <End Role="Alunos" Type="Self.Alunos" Multiplicity="1" />
+          <End Role="Alunos_CursosAgendados" Type="Self.Alunos_CursosAgendados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Alunos">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Alunos_CursosAgendados">
+              <PropertyRef Name="IdAluno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Alunos_Pessoas">
+          <End Role="Pessoas" Type="Self.Pessoas" Multiplicity="1" />
+          <End Role="Alunos" Type="Self.Alunos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pessoas">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Alunos">
+              <PropertyRef Name="IdPessoa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Alunos_CursosAgendados_CursosAgendados">
+          <End Role="CursosAgendados" Type="Self.CursosAgendados" Multiplicity="1" />
+          <End Role="Alunos_CursosAgendados" Type="Self.Alunos_CursosAgendados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CursosAgendados">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Alunos_CursosAgendados">
+              <PropertyRef Name="IdCursosAgendados" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Certificacoes_Professores">
+          <End Role="Professores" Type="Self.Professores" Multiplicity="1" />
+          <End Role="Certificacoes" Type="Self.Certificacoes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Professores">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Certificacoes">
+              <PropertyRef Name="IdProfessor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CursosAgendados_CursosClarify">
+          <End Role="CursosClarify" Type="Self.CursosClarify" Multiplicity="1" />
+          <End Role="CursosAgendados" Type="Self.CursosAgendados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CursosClarify">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CursosAgendados">
+              <PropertyRef Name="IdCurso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CursosAgendados_Professores">
+          <End Role="Professores" Type="Self.Professores" Multiplicity="1" />
+          <End Role="CursosAgendados" Type="Self.CursosAgendados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Professores">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CursosAgendados">
+              <PropertyRef Name="IdProfessor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CursosClarify_Professores">
+          <End Role="Professores" Type="Self.Professores" Multiplicity="1" />
+          <End Role="CursosClarify" Type="Self.CursosClarify" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Professores">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CursosClarify">
+              <PropertyRef Name="Coordenador" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Professores_Pessoas">
+          <End Role="Pessoas" Type="Self.Pessoas" Multiplicity="1" />
+          <End Role="Professores" Type="Self.Professores" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pessoas">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Professores">
+              <PropertyRef Name="IdPessoa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ClarifyDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Alunos" EntityType="Self.Alunos" />
+          <EntitySet Name="Alunos_CursosAgendados" EntityType="Self.Alunos_CursosAgendados" />
+          <EntitySet Name="Certificacoes" EntityType="Self.Certificacoes" />
+          <EntitySet Name="CursosAgendados" EntityType="Self.CursosAgendados" />
+          <EntitySet Name="CursosClarify" EntityType="Self.CursosClarify" />
+          <EntitySet Name="Pessoas" EntityType="Self.Pessoas" />
+          <EntitySet Name="Professores" EntityType="Self.Professores" />
+          <AssociationSet Name="FK_Alunos_CursosAgendados_Alunos" Association="Self.FK_Alunos_CursosAgendados_Alunos">
+            <End Role="Alunos" EntitySet="Alunos" />
+            <End Role="Alunos_CursosAgendados" EntitySet="Alunos_CursosAgendados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Alunos_Pessoas" Association="Self.FK_Alunos_Pessoas">
+            <End Role="Pessoas" EntitySet="Pessoas" />
+            <End Role="Alunos" EntitySet="Alunos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Alunos_CursosAgendados_CursosAgendados" Association="Self.FK_Alunos_CursosAgendados_CursosAgendados">
+            <End Role="CursosAgendados" EntitySet="CursosAgendados" />
+            <End Role="Alunos_CursosAgendados" EntitySet="Alunos_CursosAgendados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Certificacoes_Professores" Association="Self.FK_Certificacoes_Professores">
+            <End Role="Professores" EntitySet="Professores" />
+            <End Role="Certificacoes" EntitySet="Certificacoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CursosAgendados_CursosClarify" Association="Self.FK_CursosAgendados_CursosClarify">
+            <End Role="CursosClarify" EntitySet="CursosClarify" />
+            <End Role="CursosAgendados" EntitySet="CursosAgendados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CursosAgendados_Professores" Association="Self.FK_CursosAgendados_Professores">
+            <End Role="Professores" EntitySet="Professores" />
+            <End Role="CursosAgendados" EntitySet="CursosAgendados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CursosClarify_Professores" Association="Self.FK_CursosClarify_Professores">
+            <End Role="Professores" EntitySet="Professores" />
+            <End Role="CursosClarify" EntitySet="CursosClarify" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Professores_Pessoas" Association="Self.FK_Professores_Pessoas">
+            <End Role="Pessoas" EntitySet="Pessoas" />
+            <End Role="Professores" EntitySet="Professores" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ClarifyDBModelStoreContainer" CdmEntityContainer="ClarifyDBEntities">
+          <EntitySetMapping Name="Alunos">
+            <EntityTypeMapping TypeName="ClarifyDBModel.Alunos">
+              <MappingFragment StoreEntitySet="Alunos">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IdPessoa" ColumnName="IdPessoa" />
+                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
+                <ScalarProperty Name="Empresa" ColumnName="Empresa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Alunos_CursosAgendados">
+            <EntityTypeMapping TypeName="ClarifyDBModel.Alunos_CursosAgendados">
+              <MappingFragment StoreEntitySet="Alunos_CursosAgendados">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IdCursosAgendados" ColumnName="IdCursosAgendados" />
+                <ScalarProperty Name="IdAluno" ColumnName="IdAluno" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Certificacoes">
+            <EntityTypeMapping TypeName="ClarifyDBModel.Certificacoes">
+              <MappingFragment StoreEntitySet="Certificacoes">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IdProfessor" ColumnName="IdProfessor" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+                <ScalarProperty Name="EmpresaEmissora" ColumnName="EmpresaEmissora" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CursosAgendados">
+            <EntityTypeMapping TypeName="ClarifyDBModel.CursosAgendados">
+              <MappingFragment StoreEntitySet="CursosAgendados">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IdCurso" ColumnName="IdCurso" />
+                <ScalarProperty Name="IdProfessor" ColumnName="IdProfessor" />
+                <ScalarProperty Name="Periodo" ColumnName="Periodo" />
+                <ScalarProperty Name="DtInicial" ColumnName="DtInicial" />
+                <ScalarProperty Name="DtFinal" ColumnName="DtFinal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CursosClarify">
+            <EntityTypeMapping TypeName="ClarifyDBModel.CursosClarify">
+              <MappingFragment StoreEntitySet="CursosClarify">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NomeCurso" ColumnName="NomeCurso" />
+                <ScalarProperty Name="ValorCurso" ColumnName="ValorCurso" />
+                <ScalarProperty Name="CargaHoraria" ColumnName="CargaHoraria" />
+                <ScalarProperty Name="Coordenador" ColumnName="Coordenador" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pessoas">
+            <EntityTypeMapping TypeName="ClarifyDBModel.Pessoas">
+              <MappingFragment StoreEntitySet="Pessoas">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PrimeiroNome" ColumnName="PrimeiroNome" />
+                <ScalarProperty Name="UltimoNome" ColumnName="UltimoNome" />
+                <ScalarProperty Name="Endereco" ColumnName="Endereco" />
+                <ScalarProperty Name="DtNascimento" ColumnName="DtNascimento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Professores">
+            <EntityTypeMapping TypeName="ClarifyDBModel.Professores">
+              <MappingFragment StoreEntitySet="Professores">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IdPessoa" ColumnName="IdPessoa" />
+                <ScalarProperty Name="TempoMercado" ColumnName="TempoMercado" />
+                <ScalarProperty Name="TempoSalaDeAula" ColumnName="TempoSalaDeAula" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

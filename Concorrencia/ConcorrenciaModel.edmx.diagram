@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="be0339bbea9243e8aaef6d777e31965d" Name="Diagram1">
+        <EntityTypeShape EntityType="ClarifyDBModel.Alunos" Width="1.5" PointX="3" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClarifyDBModel.Alunos_CursosAgendados" Width="1.5" PointX="5.25" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClarifyDBModel.Certificacoes" Width="1.5" PointX="5.25" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClarifyDBModel.CursosAgendados" Width="1.5" PointX="7.5" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClarifyDBModel.CursosClarify" Width="1.5" PointX="5.25" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClarifyDBModel.Pessoas" Width="1.5" PointX="0.75" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClarifyDBModel.Professores" Width="1.5" PointX="3" PointY="7.5" IsExpanded="true" />
+        <AssociationConnector Association="ClarifyDBModel.FK_Alunos_CursosAgendados_Alunos" ManuallyRouted="false" />
+        <AssociationConnector Association="ClarifyDBModel.FK_Alunos_Pessoas" ManuallyRouted="false" />
+        <AssociationConnector Association="ClarifyDBModel.FK_Alunos_CursosAgendados_CursosAgendados" ManuallyRouted="false" />
+        <AssociationConnector Association="ClarifyDBModel.FK_Certificacoes_Professores" ManuallyRouted="false" />
+        <AssociationConnector Association="ClarifyDBModel.FK_CursosAgendados_CursosClarify" ManuallyRouted="false" />
+        <AssociationConnector Association="ClarifyDBModel.FK_CursosAgendados_Professores" ManuallyRouted="false" />
+        <AssociationConnector Association="ClarifyDBModel.FK_CursosClarify_Professores" ManuallyRouted="false" />
+        <AssociationConnector Association="ClarifyDBModel.FK_Professores_Pessoas" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
